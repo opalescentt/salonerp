@@ -1,26 +1,23 @@
-# SalonERP
+# Salon ERP
 
-Multi-tenant B2B SaaS ERP for salons, built as a portfolio + learning project.
+## Context
 
-This README documents the project for anyone (including future me) picking it up: what it does, the architecture, the tradeoffs made along the way, and results from load testing. It's kept up to date as the project progresses — see `CLAUDE.md` for the day-to-day working context and full decision list.
+## Options considered
+1. Option A — pros / cons
+2. Option B — pros / cons
+3. Option C — pros / cons
 
-## Status
+## Decisions
 
-Early setup — no application code yet. See `CLAUDE.md` for current milestone and build order.
+## Consequences
 
-## Architecture (summary)
 
-- **Backend:** FastAPI + Pydantic v2 + SQLAlchemy 2.0 + Alembic, PostgreSQL.
-- **Multi-tenancy:** shared schema, Row-Level Security.
-- **No double-booking:** Postgres exclusion constraint (`btree_gist`) on stylist/time-range overlap.
-- **Modular monolith:** one package per module (booking, staff, catalog, ...), communicating only via service layers.
-- **Events:** transactional outbox → Redis Streams/Kafka.
-- **Frontend:** Next.js + TypeScript, thin client generated from the OpenAPI spec.
+## Backlog
 
-## Tradeoffs
-
-_To be filled in as decisions are made — RLS vs schema-per-tenant, outbox vs dual-write, modular monolith vs microservices, exclusion constraint vs slot table/locking, what changes at 100x scale._
-
-## Load testing
-
-_To be filled in once k6 load tests are run (see build order step 3 in `CLAUDE.md`)._
+- [ ] 0001 — PostgreSQL as the primary database 
+- [ ] 0002 — Modular monolith with service-layer module boundaries
+- [ ] 0003 — Shared schema + Row-Level Security for tenant isolation
+- [ ] 0004 — Exclusion constraint for double-booking prevention
+- [ ] 0005 — Transactional outbox for events
+- [ ] 0006 — Redis as cache only, never source of truth for availability
+- [ ] 0007 — Store timestamps in UTC; tenant timezone on tenant row
