@@ -1,0 +1,35 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: salonerp_owner
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: salonerp
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U salonerp_owner -d salonerp"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
+
+# NOTE: connects as salonerp_owner (superuser-ish, owns the schema) for
+# migrations. The app itself must NOT use this role — RLS is bypassed by
+# table owners. The first migration creates a separate `salonerp_app` role
+# (non-owner, non-superuser, RLS-subject) that the app connects as instead.
+# See CLAUDE.md — "Multi-tenancy".
