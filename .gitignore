@@ -1,5 +1,9 @@
 CLAUDE.md
 learning-log.md
+progress-log.md
 docs/
 
 .env
+
+__pycache__/
+*.pyc

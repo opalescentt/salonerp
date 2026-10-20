@@ -1,23 +1,17 @@
-"""Alembic environment.
-
-Reads the DB URL from our own Settings (not alembic.ini) so there's one
-source of truth for connection config, matching core/db.py.
-
-migrations/versions/ is where the hand-written RLS policies and the
-exclusion constraint go (see CLAUDE.md — autogenerate won't produce either).
-"""
+# Alembic Environment Configuration
 
 from logging.config import fileConfig
 
-from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+from alembic import context
 from salonerp.core.config import get_settings
 from salonerp.core.db import Base
-
-# Import each module's models here so Base.metadata knows about their tables
-# and `alembic revision --autogenerate` can diff against them, e.g.:
-#   from salonerp.modules.booking import models as booking_models  # noqa: F401
+from salonerp.modules.booking import models as booking_models  # noqa: F401
+from salonerp.modules.catalog import models as catalog_models  # noqa: F401
+from salonerp.modules.customers import models as customer_models  # noqa: F401
+from salonerp.modules.staff import models as staff_models  # noqa: F401
+from salonerp.modules.tenant import models as tenant_models  # noqa: F401
 
 config = context.config
 
